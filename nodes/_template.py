@@ -1,18 +1,21 @@
 """Starting point for a new DUGCO node.
 
 Copy this file to ``nodes/<your_node>.py`` (no leading underscore) and edit it.
+A tool with several files can be a folder instead: ``nodes/<your_tool>/__init__.py``.
 The pack loads it on the next ComfyUI restart. This template itself is skipped
 because its name starts with an underscore.
 
 Conventions for this pack:
-  * Node ids start with ``DUGCO_`` so they never clash with other packs.
-  * Display names are plain and readable; the category is ``DUGCO`` or
-    ``DUGCO/<group>``.
+  * Node ids start with ``DUGco`` (``DUGcoFilmFinish``) so they never clash with
+    other packs. Never rename an id once published: saved workflows break.
+  * Display names start with ``DUGco``; the category is ``DUGco/<group>``.
+  * Front-end code goes in ``web/js/``, example workflows in
+    ``example_workflows/``, and a guide in ``docs/``.
 """
 
 
-class DUGCOTemplateNode:
-    CATEGORY = "DUGCO"
+class DUGcoTemplateNode:
+    CATEGORY = "DUGco/Utilities"
     FUNCTION = "run"
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("image",)
@@ -31,5 +34,5 @@ class DUGCOTemplateNode:
         return (image * strength,)
 
 
-NODE_CLASS_MAPPINGS = {"DUGCO_TemplateNode": DUGCOTemplateNode}
-NODE_DISPLAY_NAME_MAPPINGS = {"DUGCO_TemplateNode": "Template Node"}
+NODE_CLASS_MAPPINGS = {"DUGcoTemplateNode": DUGcoTemplateNode}
+NODE_DISPLAY_NAME_MAPPINGS = {"DUGcoTemplateNode": "DUGco Template Node"}

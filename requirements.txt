@@ -1,2 +1,6 @@
 # Python packages the nodes need beyond what ComfyUI already ships with.
 # Keep this in step with `dependencies` in pyproject.toml.
+OpenEXR
+Imath
+av
+opencv-python
