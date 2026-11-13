@@ -18,7 +18,7 @@ pip install -r DUGCO_Tools/requirements.txt
 
 To update later, run `git pull` inside the `DUGCO_Tools` folder and restart ComfyUI.
 
-**Already have one of these as a separate pack?** Remove the standalone copy first (for example `exr_multi_pass_exporter`). Two packs that register the same node will clash.
+**Already have one of these as a separate pack?** Remove the standalone copy first (for example `exr_multi_pass_exporter` or `ComfyUI-DUGco-FrameTools`). Two packs that register the same node will clash.
 
 ## Nodes
 
@@ -29,6 +29,7 @@ All nodes appear under the **DUGco** category in the node menu.
 | **Pass Viewer** | Load VFX Pass EXRs, Passes From Images, Pass Viewer, Pick Pass | Step through the VFX passes of a shot inside one node: beauty, alpha, albedo, normals, depth and more, with scrub and playback. | [Guide](docs/pass_viewer.md) |
 | **Multi-Pass EXR Exporter** | Multi-Pass EXR Exporter, Add Pass | Write any number of passes into multi-channel EXR sequences with proper channel names. | [Guide](docs/exr_multi_pass_exporter.md) |
 | **Film Finish** | Film Finish | Make AI and digital renders read as 35mm film: de-clarity, film curve, halation, grain, gate weave. | [Guide](docs/film_finish.md) |
+| **Frame Tools** | Repeat Latent Frames, Select Every Nth Frame | Repeat video latent frames along time before the decode, and keep every Nth image of a batch. | [Guide](docs/frame_tools.md) |
 
 ### What each tool needs
 
@@ -37,6 +38,7 @@ All nodes appear under the **DUGco** category in the node menu.
 | Pass Viewer | `OpenEXR`, `av`, `opencv-python` (in `requirements.txt`) |
 | Multi-Pass EXR Exporter | `OpenEXR`, `Imath` (in `requirements.txt`) |
 | Film Finish | None |
+| Frame Tools | None |
 
 ## Workflows
 

@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 EXPECTED = {
     "DUGcoLoadPassEXRs", "DUGcoPassViewer", "DUGcoPassesFromImages", "DUGcoPickPass",
     "DUGcoFilmFinish", "MultiPassEXRExporter", "AddPass",
+    "DUGcoRepeatLatentFrames", "DUGcoSelectEveryNthFrame",
 }
 
 
@@ -61,6 +62,25 @@ def check_film_finish(pack):
     print("OK: Film Finish ran on 3 frames")
 
 
+def check_frame_tools(pack):
+    import torch
+
+    repeat = pack.NODE_CLASS_MAPPINGS["DUGcoRepeatLatentFrames"]()
+    video = {"samples": torch.arange(5.0).view(1, 1, 5, 1, 1).repeat(1, 2, 1, 3, 3), "noise_mask": torch.ones(1)}
+    (out,) = repeat.run(video, 2, True, 0)
+    assert out["samples"][0, 0, :, 0, 0].tolist() == [0, 1, 1, 2, 2, 3, 3, 4, 4] and "noise_mask" not in out
+    (out,) = repeat.run(video, 3, False, 2)
+    assert out["samples"][0, 0, :, 0, 0].tolist() == [0, 0, 0, 1, 1, 1]
+    image = {"samples": torch.rand(1, 4, 8, 8)}
+    assert repeat.run(image, 2, True, 0)[0]["samples"].shape == (1, 4, 8, 8), "image latents must pass through"
+
+    every = pack.NODE_CLASS_MAPPINGS["DUGcoSelectEveryNthFrame"]()
+    frames = torch.arange(10.0).view(10, 1, 1, 1).repeat(1, 2, 2, 3)
+    assert every.run(frames, 2, 0, 0)[0][:, 0, 0, 0].tolist() == [0, 2, 4, 6, 8]
+    assert every.run(frames, 3, 1, 2)[0][:, 0, 0, 0].tolist() == [1, 4]
+    print("OK: Frame Tools repeat and select the right frames")
+
+
 def check_exr_round_trip(pack):
     """Exporter writes multi-channel EXRs; the Pass Viewer loader reads them back."""
     import torch
@@ -91,6 +111,7 @@ def main():
     pack = load_pack()
     check_registration(pack)
     check_film_finish(pack)
+    check_frame_tools(pack)
     check_exr_round_trip(pack)
     print("OK: exporter -> EXR -> Pass Viewer loader round trip")
 
