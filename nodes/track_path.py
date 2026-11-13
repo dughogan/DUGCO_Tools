@@ -72,7 +72,7 @@ class DUGcoTrackPathToShot:
                 "path_height": ("INT", {"default": 0, "min": 0, "max": 16384, "tooltip": "Height of the canvas the path was drawn on. 0 = same as the shot."}),
                 "start_frame": ("INT", {"default": 0, "min": 0, "max": 100000, "tooltip": "Frame where the move begins. Before it, the point waits at the start of the path (still tracked)."}),
                 "end_frame": ("INT", {"default": 0, "min": 0, "max": 100000, "tooltip": "Frame where the move ends. 0 = the last frame. After it, the point waits at the end of the path (still tracked)."}),
-                "track": ("BOOLEAN", {"default": True, "tooltip": "Off = the path stays where it was drawn (screen space), for a locked-off shot or to compare."}),
+                "track": ("BOOLEAN", {"default": True, "tooltip": "On = the path is tracked onto the surface with CoTracker3, which is licensed CC-BY-NC 4.0: non-commercial use only. Off = the path stays where it was drawn (screen space), for a locked-off shot or to compare, and no model is used."}),
                 "anchors": ("INT", {"default": 32, "min": 2, "max": 256, "tooltip": "How many points along the path are tracked. More follows cloth folds more closely."}),
                 "smooth": ("INT", {"default": 2, "min": 0, "max": 24, "tooltip": "Temporal smoothing of the result, in frames, to take out tracker jitter."}),
                 "track_size": ("INT", {"default": 768, "min": 256, "max": 2048, "step": 32, "tooltip": "The shot is scaled so its long edge is this size for tracking only."}),
