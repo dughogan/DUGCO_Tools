@@ -19,6 +19,7 @@ EXPECTED = {
     "DUGcoLoadPassEXRs", "DUGcoPassViewer", "DUGcoPassesFromImages", "DUGcoPickPass",
     "DUGcoFilmFinish", "MultiPassEXRExporter", "AddPass",
     "DUGcoRepeatLatentFrames", "DUGcoSelectEveryNthFrame",
+    "DUGcoTrackPathToShot",
 }
 
 
@@ -81,6 +82,24 @@ def check_frame_tools(pack):
     print("OK: Frame Tools repeat and select the right frames")
 
 
+def check_track_path(pack):
+    """Track Path To Shot with tracking off needs no model: the route is only timed, not tracked."""
+    import json
+
+    import torch
+
+    node = pack.NODE_CLASS_MAPPINGS["DUGcoTrackPathToShot"]()
+    frames = torch.rand(12, 64, 96, 3)
+    route = json.dumps([{"x": 10 + 4 * i, "y": 50 - 3 * i} for i in range(8)])
+    canvas = torch.zeros(1, 128, 192)                       # the route was drawn on a canvas twice the shot's size
+    coords, preview, count = node.run(frames, route, 0, 0, 2, 9, False, 32, 2, 768, path_canvas=canvas)
+    points = json.loads(coords)
+    assert count == 12 and len(points) == 12 and preview.shape == frames.shape
+    assert points[0] == points[2] == {"x": 5.0, "y": 25.0}, "the point should wait at the start until start_frame"
+    assert points[9] == points[11] == {"x": 19.0, "y": 14.5}, "the point should wait at the end after end_frame"
+    print("OK: Track Path To Shot times a route (tracking off)")
+
+
 def check_exr_round_trip(pack):
     """Exporter writes multi-channel EXRs; the Pass Viewer loader reads them back."""
     import torch
@@ -112,6 +131,7 @@ def main():
     check_registration(pack)
     check_film_finish(pack)
     check_frame_tools(pack)
+    check_track_path(pack)
     check_exr_round_trip(pack)
     print("OK: exporter -> EXR -> Pass Viewer loader round trip")
 

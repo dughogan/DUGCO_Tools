@@ -16,6 +16,7 @@ A growing pack of custom nodes and workflows for [ComfyUI](https://github.com/co
 | [Multi-Pass EXR Exporter](#multi-pass-exr-exporter) | Write all of your passes into one multi-channel EXR per frame. | 2 |
 | [Film Finish](#film-finish) | Make AI renders read as 35mm film. | 1 |
 | [Frame Tools](#frame-tools) | Repeat video latent frames, and keep every Nth image. | 2 |
+| [Track Path To Shot](#track-path-to-shot) | Draw a route on frame 1 and it sticks to the surface for the whole shot. | 1 |
 
 All nodes appear under the **DUGco** category in the node menu.
 
@@ -83,6 +84,24 @@ Two small utilities with no model and no extra packages.
 
 ---
 
+### Track Path To Shot
+
+<img src="docs/images/track_path.jpg" alt="A route drawn on a jacket, tracked through the shot, and the spider MiniMax H3 painted along it" width="100%">
+
+For the classic "insert creature here" shot. Draw a route on the first frame and the node keeps it on the surface it was drawn on, so a mask can crawl up a jacket while the actor moves.
+
+- Draw the route in the KJNodes Spline Editor, over frame 1 of your shot.
+- The node tracks points along the route through the shot and gives you one position per frame, with a start and end frame for the move.
+- Feed that to Create Shape Mask On Path for a travelling mask, and check the built-in preview before you render.
+- The **Animated Path Insert** workflow uses it with MiniMax H3 to add a spider that climbs a jacket, and saves a matte and an RGBA element for your comp.
+
+**Licence:** the tracker it downloads, CoTracker3, is **CC-BY-NC 4.0: non-commercial use only**. The node's own code is MIT.
+
+**Nodes:** DUGco Track Path To Shot
+&nbsp;|&nbsp; [Watch the result](demos/animated_path_insert/demo.mp4) &nbsp;|&nbsp; [Node guide](docs/track_path.md) &nbsp;|&nbsp; [Workflow guide](docs/animated_path_insert.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Animated%20Path%20Insert%20-%20MiniMax%20H3.json)
+
+---
+
 ## Install
 
 Clone the pack into your ComfyUI `custom_nodes` folder:
@@ -123,6 +142,7 @@ If you use a coding agent (Claude Code, Codex, Cursor and others), it can do the
 | Multi-Pass EXR Exporter | `OpenEXR`, `Imath` (in `requirements.txt`) |
 | Film Finish | None |
 | Frame Tools | None |
+| Track Path To Shot | `opencv-python` (in `requirements.txt`); [KJNodes](https://github.com/kijai/ComfyUI-KJNodes) for the Spline Editor; CoTracker3, downloaded on first use (non-commercial licence) |
 
 ## Workflows
 
@@ -132,6 +152,7 @@ Workflows live in [example_workflows](example_workflows) and also appear in Comf
 | --- | --- |
 | [DUGco Pass Viewer - VFX Passes](example_workflows/DUGco%20Pass%20Viewer%20-%20VFX%20Passes.json) | Load a folder of multi-layer EXR frames and step through every pass. |
 | [DUGco Film Finish - video](example_workflows/DUGco%20Film%20Finish%20-%20video.json) | Load a clip, apply the film finish, save at a grain-safe bitrate. |
+| [DUGco Animated Path Insert - MiniMax H3](example_workflows/DUGco%20Animated%20Path%20Insert%20-%20MiniMax%20H3.json) | Draw a route, track it onto the shot, and have MiniMax H3 paint a creature along it. Needs the MiniMax H3 models, KJNodes and MaskVidExperiments: see the [guide](docs/animated_path_insert.md), or [let an agent set it up](docs/animated_path_insert_agents.md). |
 
 ## Demo videos
 

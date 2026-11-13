@@ -1,7 +1,7 @@
 [project]
 name = "dugco-tools"
 description = "DUGCO Tools: a growing pack of custom nodes, workflows and demo videos for ComfyUI."
-version = "0.4.0"
+version = "0.5.0"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
 dependencies = ["OpenEXR", "Imath", "av", "opencv-python"]

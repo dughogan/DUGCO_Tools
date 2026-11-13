@@ -21,7 +21,7 @@ REQUIRED = [
     ("OpenEXR", "OpenEXR", "Pass Viewer, Multi-Pass EXR Exporter"),
     ("Imath", "Imath", "Multi-Pass EXR Exporter"),
     ("av", "av", "Pass Viewer"),
-    ("cv2", "opencv-python", "Pass Viewer"),
+    ("cv2", "opencv-python", "Pass Viewer, Track Path To Shot"),
 ]
 # Any one of these already provides cv2. Installing a second one on top can break the first.
 CV2_PACKAGES = ("opencv-python", "opencv-contrib-python", "opencv-python-headless", "opencv-contrib-python-headless")
