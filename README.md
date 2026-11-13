@@ -6,7 +6,7 @@
 
 A growing pack of custom nodes and workflows for [ComfyUI](https://github.com/comfyanonymous/ComfyUI), built by Doug Hogan for real VFX and finishing work. Every tool here solves a problem that came up on a shot. New tools are added as they are published.
 
-**[Install](#install)** · **[Let an agent install it](#let-an-agent-install-it)** · **[Workflows](#workflows)** · **[Requirements](#what-each-tool-needs)**
+**[Install](#install)** · **[Demo videos](#demo-videos)** · **[Let an agent install it](#let-an-agent-install-it)** · **[Workflows](#workflows)** · **[Requirements](#what-each-tool-needs)**
 
 ## The tools
 
@@ -33,7 +33,7 @@ Beauty, alpha, albedo, normals, depth, shading, specular, roughness, metallic an
 - No EXRs yet? **Passes From Images** bundles image batches from any workflow into a pass set, and **Pick Pass** pulls one pass back out as an image and a mask.
 
 **Nodes:** DUGco Load VFX Pass EXRs · DUGco Passes From Images · DUGco Pass Viewer · DUGco Pick Pass
-&nbsp;|&nbsp; [Guide](docs/pass_viewer.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Pass%20Viewer%20-%20VFX%20Passes.json)
+&nbsp;|&nbsp; [Watch the demo](demos/pass_viewer/demo.mp4) &nbsp;|&nbsp; [Guide](docs/pass_viewer.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Pass%20Viewer%20-%20VFX%20Passes.json)
 
 ---
 
@@ -49,7 +49,7 @@ Chain an **Add Pass** node for each pass you want, give it a name, and the expor
 - The files open straight back into the Pass Viewer.
 
 **Nodes:** Multi-Pass EXR Exporter · Add Pass
-&nbsp;|&nbsp; [Guide](docs/exr_multi_pass_exporter.md)
+&nbsp;|&nbsp; [Watch the demo](demos/exr_multi_pass_exporter/demo.mp4) &nbsp;|&nbsp; [Guide](docs/exr_multi_pass_exporter.md)
 
 ---
 
@@ -65,7 +65,7 @@ One node that makes AI and digital renders read as if they were shot on 35mm fil
 - Works on stills and video. Long clips can be processed in pieces without the grain restarting.
 
 **Nodes:** DUGco Film Finish
-&nbsp;|&nbsp; [Guide](docs/film_finish.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Film%20Finish%20-%20video.json)
+&nbsp;|&nbsp; [Watch the demo](demos/film_finish/demo.mp4) &nbsp;|&nbsp; [Guide](docs/film_finish.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Film%20Finish%20-%20video.json)
 
 ---
 
@@ -132,6 +132,15 @@ Workflows live in [example_workflows](example_workflows) and also appear in Comf
 | --- | --- |
 | [DUGco Pass Viewer - VFX Passes](example_workflows/DUGco%20Pass%20Viewer%20-%20VFX%20Passes.json) | Load a folder of multi-layer EXR frames and step through every pass. |
 | [DUGco Film Finish - video](example_workflows/DUGco%20Film%20Finish%20-%20video.json) | Load a clip, apply the film finish, save at a grain-safe bitrate. |
+
+## Demo videos
+
+A 45-second narrated walkthrough of each tool.
+
+| | | |
+| :---: | :---: | :---: |
+| [<img src="demos/pass_viewer/thumbnail.jpg" alt="Pass Viewer demo" width="100%">](demos/pass_viewer/demo.mp4) | [<img src="demos/exr_multi_pass_exporter/thumbnail.jpg" alt="Multi-Pass EXR Exporter demo" width="100%">](demos/exr_multi_pass_exporter/demo.mp4) | [<img src="demos/film_finish/thumbnail.jpg" alt="Film Finish demo" width="100%">](demos/film_finish/demo.mp4) |
+| [Pass Viewer](demos/pass_viewer/demo.mp4) | [Multi-Pass EXR Exporter](demos/exr_multi_pass_exporter/demo.mp4) | [Film Finish](demos/film_finish/demo.mp4) |
 
 ## What's in the repository
 
