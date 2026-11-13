@@ -205,6 +205,7 @@ Workflows live in [example_workflows](example_workflows) and also appear in Comf
 | [DUGco Film Finish - video](example_workflows/DUGco%20Film%20Finish%20-%20video.json) | Load a clip, apply the film finish, save at a grain-safe bitrate. |
 | [DUGco Animated Path Insert - MiniMax H3](example_workflows/DUGco%20Animated%20Path%20Insert%20-%20MiniMax%20H3.json) | Draw a route, track it onto the shot, and have MiniMax H3 paint a creature along it. Needs the MiniMax H3 models, KJNodes and MaskVidExperiments: see the [guide](docs/animated_path_insert.md), or [let an agent set it up](docs/animated_path_insert_agents.md). |
 | [DUGco Plate Relight - showcase](example_workflows/DUGco%20Plate%20Relight%20-%20showcase.json) | All three relight nodes on a plate and its passes. |
+| [DUGco 25 fps Delivery - Native Conform Retime](example_workflows/DUGco%2025%20fps%20Delivery%20-%20Native%20Conform%20Retime.json) | Three ways to deliver 25 fps when the model gives you 24: generate at 25 with LTX 2.5, conform the same frames, or retime with Topaz. Uses no DUGCO Tools node. Needs KJNodes, the LTX 2.5 models and, for the Seedance and Topaz nodes, a Comfy account: see the [guide](docs/fps25_delivery.md). |
 
 ## Demo videos
 
@@ -214,6 +215,8 @@ A 45-second narrated walkthrough of each tool.
 | :---: | :---: | :---: |
 | [<img src="demos/pass_viewer/thumbnail.jpg" alt="Pass Viewer demo" width="100%">](demos/pass_viewer/demo.mp4) | [<img src="demos/exr_multi_pass_exporter/thumbnail.jpg" alt="Multi-Pass EXR Exporter demo" width="100%">](demos/exr_multi_pass_exporter/demo.mp4) | [<img src="demos/film_finish/thumbnail.jpg" alt="Film Finish demo" width="100%">](demos/film_finish/demo.mp4) |
 | [Pass Viewer](demos/pass_viewer/demo.mp4) | [Multi-Pass EXR Exporter](demos/exr_multi_pass_exporter/demo.mp4) | [Film Finish](demos/film_finish/demo.mp4) |
+| [<img src="demos/fps25_delivery/thumbnail.jpg" alt="25 fps Delivery explainer" width="100%">](demos/fps25_delivery/demo.mp4) | | |
+| [25 fps Delivery](demos/fps25_delivery/demo.mp4) (workflow explainer, 1:53) | | |
 
 ## What's in the repository
 
