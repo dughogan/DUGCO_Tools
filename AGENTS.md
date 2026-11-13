@@ -2,7 +2,7 @@
 
 Instructions for an AI coding agent that has been asked to **install DUGCO Tools into someone's ComfyUI**, or to fix an install that is not working. If you were asked to add a new tool to this pack instead, read [CONTRIBUTING.md](CONTRIBUTING.md).
 
-DUGCO Tools is a ComfyUI custom node pack: ten nodes in five tools (Pass Viewer, Multi-Pass EXR Exporter, Film Finish, Frame Tools, Track Path To Shot). It lives in one folder inside ComfyUI's `custom_nodes` folder and needs four Python packages.
+DUGCO Tools is a ComfyUI custom node pack: 19 nodes in eight tools (Pass Viewer, Multi-Pass EXR Exporter, Film Finish, Frame Tools, Track Path To Shot, Plate Relight, Comfy Workflow Tracker and waitingMusak). It lives in one folder inside ComfyUI's `custom_nodes` folder and needs four Python packages.
 
 ## Ground rules
 
@@ -49,6 +49,9 @@ These older standalone packs register the same node ids as DUGCO Tools. If any o
 - `ComfyUI-DUGco-FilmFinish`
 - `ComfyUI-DUGco-FrameTools`
 - `exr_multi_pass_exporter` or `ComfyUI_exr_multi_pass_exporter`
+- `comfyui-plate-relight`
+- `comfyaudit` or `comfy_workflow_audit`
+- `comfyui_waitingMusak` or `ComfyUI-Elevator-Music`
 
 ## 4. Run the checker
 
@@ -71,7 +74,7 @@ Run the command the checker printed. It has this shape:
 | `OpenEXR` | `OpenEXR` | Pass Viewer, EXR Exporter | Installs from a prebuilt wheel on common platforms. If pip starts compiling from source and fails, stop and show the user the error; do not install a compiler toolchain without asking. |
 | `Imath` | `Imath` | EXR Exporter | A small pure-Python package. |
 | `av` | `av` | Pass Viewer | PyAV. ComfyUI itself requires it, so it is normally already there. |
-| `cv2` | `opencv-python` | Pass Viewer, Track Path To Shot | **Only install if `import cv2` fails.** `opencv-python`, `opencv-contrib-python` and the `-headless` variants all provide `cv2`; adding a second one on top of an existing one can break it. |
+| `cv2` | `opencv-python` | Pass Viewer, Track Path To Shot, Plate Relight | **Only install if `import cv2` fails.** `opencv-python`, `opencv-contrib-python` and the `-headless` variants all provide `cv2`; adding a second one on top of an existing one can break it. |
 
 If `pip` is not available in that environment (some ComfyUI Desktop environments are managed by `uv`), use:
 
@@ -85,7 +88,8 @@ Run the checker again afterwards. Do not go on until it reports that the require
 
 Nothing here is needed for the pack to load. Offer each one only if the user wants it.
 
-- **The video example workflow** uses [ComfyUI-VideoHelperSuite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite) to load and save clips.
+- **Comfy Workflow Tracker** needs nothing extra. Its Claude Review node needs `anthropic`, and encrypted prompts need `cryptography`; install either only if the user asks for that feature.
+- **The video example workflows** use [ComfyUI-VideoHelperSuite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite) to load and save clips.
 - **Track Path To Shot** downloads its tracker, CoTracker3, through `torch.hub` the first time it runs (code from GitHub, about 100 MB of weights from Hugging Face). CoTracker3 is licensed CC-BY-NC 4.0, non-commercial use only: tell the user. It is used with the Spline Editor from [ComfyUI-KJNodes](https://github.com/kijai/ComfyUI-KJNodes).
 - **The Animated Path Insert workflow** needs the MiniMax H3 models, SAM 3.1 and two more node packs. It has its own instructions: [docs/animated_path_insert_agents.md](docs/animated_path_insert_agents.md).
 - **The Pass Viewer example workflow** expects a folder of multi-layer EXR frames at `<ComfyUI>/input/vfx_passes/`. The user supplies those.
@@ -100,9 +104,19 @@ curl -s http://127.0.0.1:8188/object_info/DUGcoPassViewer
 
 A JSON description of the node means the pack loaded. An empty object `{}` means it did not: read the ComfyUI startup log for a line that mentions `DUGCO_Tools` or `[DUGCO Tools]`.
 
-All ten node ids, for checking: `DUGcoLoadPassEXRs`, `DUGcoPassesFromImages`, `DUGcoPassViewer`, `DUGcoPickPass`, `MultiPassEXRExporter`, `AddPass`, `DUGcoFilmFinish`, `DUGcoRepeatLatentFrames`, `DUGcoSelectEveryNthFrame`, `DUGcoTrackPathToShot`.
+All 19 node ids, for checking:
 
-In the ComfyUI interface the nodes are under the **DUGco** category, and the example workflows are in the Templates browser under **DUGCO_Tools**.
+- Pass Viewer: `DUGcoLoadPassEXRs`, `DUGcoPassesFromImages`, `DUGcoPassViewer`, `DUGcoPickPass`
+- EXR Exporter: `MultiPassEXRExporter`, `AddPass`
+- Film Finish: `DUGcoFilmFinish`
+- Frame Tools: `DUGcoRepeatLatentFrames`, `DUGcoSelectEveryNthFrame`
+- Track Path To Shot: `DUGcoTrackPathToShot`
+- Plate Relight: `LightTransfer`, `TemporalDeflicker`, `AddLightFromPasses`
+- Comfy Workflow Tracker: `ComfyAuditStudioProfile`, `ComfyAuditWorkflow`, `ComfyAuditClaudeReview`, `ComfyAuditGate`, `ComfyAuditHistoryGate`, `ComfyAuditSaveReport`
+
+Two tools also add web routes, which you can check directly: `/comfyaudit/status` (Workflow Tracker) and `/waitingmusak/monitor` (Comfy Monitor). waitingMusak registers no nodes. Its Comfy Monitor also starts a small web server on its own port (8190 by default, this computer only); tell the user, and do not open it to the network unless they ask.
+
+In the ComfyUI interface most nodes are under the **DUGco** category (the Workflow Tracker has its own category and a sidebar tab), and the example workflows are in the Templates browser under **DUGCO_Tools**.
 
 ## Troubleshooting
 
@@ -116,8 +130,8 @@ In the ComfyUI interface the nodes are under the **DUGco** category, and the exa
 | `cv2` errors after installing packages | Two OpenCV packages installed over each other | Tell the user. The usual fix is to uninstall all `opencv-*` packages and reinstall one, but other packs may depend on a specific one, so ask first. |
 | The Pass Viewer shows "This preview is gone" | ComfyUI was restarted, which clears its temp folder | Run the workflow again. |
 | Track Path To Shot fails with a download or connection error | CoTracker3 could not be fetched through `torch.hub` | The machine needs internet access the first time. See [docs/animated_path_insert_agents.md](docs/animated_path_insert_agents.md#step-4-cotracker3-the-tracker-inside-track-path-to-shot) for the cache locations and an offline route. |
-| The Film Finish example workflow shows missing nodes | VideoHelperSuite is not installed | Step 6. |
-| pip tries to build `OpenEXR` from source and fails | No prebuilt wheel for this Python version or platform | Report the Python version and platform to the user. The other tools (Film Finish, Frame Tools) work without it. |
+| An example workflow shows missing nodes | VideoHelperSuite is not installed | Step 6. |
+| pip tries to build `OpenEXR` from source and fails | No prebuilt wheel for this Python version or platform | Report the Python version and platform to the user. Every tool except Pass Viewer and the EXR Exporter works without it. |
 
 ## Updating and removing
 

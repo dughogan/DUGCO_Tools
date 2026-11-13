@@ -17,8 +17,11 @@ A growing pack of custom nodes and workflows for [ComfyUI](https://github.com/co
 | [Film Finish](#film-finish) | Make AI renders read as 35mm film. | 1 |
 | [Frame Tools](#frame-tools) | Repeat video latent frames, and keep every Nth image. | 2 |
 | [Track Path To Shot](#track-path-to-shot) | Draw a route on frame 1 and it sticks to the surface for the whole shot. | 1 |
+| [Plate Relight](#plate-relight) | Relight and clean up real footage without replacing the plate's pixels. | 3 |
+| [Comfy Workflow Tracker](#comfy-workflow-tracker) | Audit a workflow's models and licences, record a shot's life, package it for legal. | 6 |
+| [waitingMusak](#waitingmusak) | Elevator music while a workflow runs, and a phone-friendly render monitor. | 0 |
 
-All nodes appear under the **DUGco** category in the node menu.
+Most nodes appear under the **DUGco** category in the node menu. Comfy Workflow Tracker keeps its own category and sidebar tab, and waitingMusak adds no nodes: it lives in the ComfyUI interface.
 
 ---
 
@@ -102,6 +105,51 @@ For the classic "insert creature here" shot. Draw a route on the first frame and
 
 ---
 
+### Plate Relight
+
+<img src="docs/images/plate_relight.jpg" alt="Plate Relight" width="100%">
+
+Three post nodes that relight and clean up real footage using AI renders and passes, while keeping the original plate's pixels. They run on the CPU with NumPy and OpenCV, with no model downloads.
+
+- **Light Transfer** copies the light and colour from a relit render onto the original plate, aligning the render to the plate first.
+- **Temporal Deflicker** removes frame-to-frame shimmer from per-frame AI passes by following the plate's motion.
+- **Add Light from Passes** adds a new light on top of the footage from albedo, normals and specular passes, with cast shadows from depth.
+
+**Nodes:** Light Transfer · Temporal Deflicker · Add Light from Passes
+&nbsp;|&nbsp; [Guide](docs/plate_relight.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Plate%20Relight%20-%20showcase.json)
+
+---
+
+### Comfy Workflow Tracker
+
+<img src="docs/images/workflow_tracker.jpg" alt="Comfy Workflow Tracker" width="100%">
+
+Every workflow's life, recorded as it happens, and packaged for legal. Built for studios putting ComfyUI in final pixels.
+
+- **Audits a workflow:** every model it loads and what its licence says for your studio, the custom node packs and versions, prompts and external assets, with a go, no-go or go-with-conditions.
+- **Records the shot's life inside the workflow file:** who changed what, which models came and went, and where a person made the decisions. The record is hash-chained and travels with the `.json`.
+- **Packages a shot for legal:** a check against your licences, a sign-off sealed into the history, and a zip that opens in Comfy Audit, a browser app for legal teams (in [apps/comfy_audit](apps/comfy_audit)).
+- Standard library only, and nothing contacts the network unless you turn on online lookups. It also runs from the command line.
+
+**Nodes:** Studio Profile · Audit This Workflow · Claude Review · Audit Gate · Shot History Gate · Save Audit Report
+&nbsp;|&nbsp; [Watch the demo](demos/workflow_tracker/demo.mp4) &nbsp;|&nbsp; [Guide](docs/workflow_tracker.md)
+
+---
+
+### waitingMusak
+
+<img src="docs/images/waiting_musak.jpg" alt="waitingMusak" width="100%">
+
+Your GPU is working hard. You are on hold. Elevator music while a workflow runs, a ding when it finishes, and Comfy Monitor.
+
+- Twelve original synthesized loops, made in the browser. Nothing to install and no audio files.
+- **Comfy Monitor:** a phone-friendly page to watch, stop and preview your renders. It listens on its own port (8190), on this computer only until you choose to open it to your network or Tailscale.
+- It adds no nodes. The controls are in the ComfyUI interface and settings.
+
+&nbsp;[Guide](docs/waiting_musak.md) &nbsp;|&nbsp; [Changelog](docs/waiting_musak_changelog.md)
+
+---
+
 ## Install
 
 Clone the pack into your ComfyUI `custom_nodes` folder:
@@ -124,7 +172,7 @@ python DUGCO_Tools/scripts/check_install.py
 
 To update later, run `git pull` inside the `DUGCO_Tools` folder and restart ComfyUI.
 
-**Already have one of these as a separate pack?** Remove the standalone copy first (for example `exr_multi_pass_exporter` or `ComfyUI-DUGco-FrameTools`). Two packs that register the same node will clash. The checker lists any it finds.
+**Already have one of these as a separate pack?** Remove the standalone copy first (for example `comfyui-plate-relight`, `comfyaudit` or `comfyui_waitingMusak`). Two packs that register the same node will clash. The checker lists any it finds.
 
 ### Let an agent install it
 
@@ -143,16 +191,20 @@ If you use a coding agent (Claude Code, Codex, Cursor and others), it can do the
 | Film Finish | None |
 | Frame Tools | None |
 | Track Path To Shot | `opencv-python` (in `requirements.txt`); [KJNodes](https://github.com/kijai/ComfyUI-KJNodes) for the Spline Editor; CoTracker3, downloaded on first use (non-commercial licence) |
+| Plate Relight | `opencv-python` (in `requirements.txt`) |
+| Comfy Workflow Tracker | None. Optional: `anthropic` for the Claude Review node, `cryptography` for encrypted prompts. |
+| waitingMusak | None |
 
 ## Workflows
 
-Workflows live in [example_workflows](example_workflows) and also appear in ComfyUI's Templates browser once the pack is installed. The Film Finish workflow uses [Video Helper Suite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite) to load and save clips.
+Workflows live in [example_workflows](example_workflows) and also appear in ComfyUI's Templates browser once the pack is installed. The video workflows use [Video Helper Suite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite) to load and save clips.
 
 | Workflow | What it does |
 | --- | --- |
 | [DUGco Pass Viewer - VFX Passes](example_workflows/DUGco%20Pass%20Viewer%20-%20VFX%20Passes.json) | Load a folder of multi-layer EXR frames and step through every pass. |
 | [DUGco Film Finish - video](example_workflows/DUGco%20Film%20Finish%20-%20video.json) | Load a clip, apply the film finish, save at a grain-safe bitrate. |
 | [DUGco Animated Path Insert - MiniMax H3](example_workflows/DUGco%20Animated%20Path%20Insert%20-%20MiniMax%20H3.json) | Draw a route, track it onto the shot, and have MiniMax H3 paint a creature along it. Needs the MiniMax H3 models, KJNodes and MaskVidExperiments: see the [guide](docs/animated_path_insert.md), or [let an agent set it up](docs/animated_path_insert_agents.md). |
+| [DUGco Plate Relight - showcase](example_workflows/DUGco%20Plate%20Relight%20-%20showcase.json) | All three relight nodes on a plate and its passes. |
 
 ## Demo videos
 
@@ -172,8 +224,10 @@ A 45-second narrated walkthrough of each tool.
 | `example_workflows/` | Workflow `.json` files and their thumbnails. |
 | `docs/` | A guide for each tool, and the images on this page. |
 | `demos/` | Short demo clips, one folder per tool or workflow. |
+| `apps/` | Comfy Audit, the browser app legal teams use to open a packaged shot. |
 | `scripts/` | The install checker. |
-| `tests/` | A smoke test that checks the pack loads and the nodes run. |
+| `tools/` | Maintainer scripts for the Workflow Tracker's bundled data. |
+| `tests/` | A smoke test that checks the pack loads and the nodes run, plus each tool's own tests. |
 
 Adding a tool to the pack? The checklist is in [CONTRIBUTING.md](CONTRIBUTING.md).
 

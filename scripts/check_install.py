@@ -21,14 +21,15 @@ REQUIRED = [
     ("OpenEXR", "OpenEXR", "Pass Viewer, Multi-Pass EXR Exporter"),
     ("Imath", "Imath", "Multi-Pass EXR Exporter"),
     ("av", "av", "Pass Viewer"),
-    ("cv2", "opencv-python", "Pass Viewer, Track Path To Shot"),
+    ("cv2", "opencv-python", "Pass Viewer, Track Path To Shot, Plate Relight"),
 ]
 # Any one of these already provides cv2. Installing a second one on top can break the first.
 CV2_PACKAGES = ("opencv-python", "opencv-contrib-python", "opencv-python-headless", "opencv-contrib-python-headless")
 
 # Standalone packs that register the same node ids as this pack.
 DUPLICATES = ("ComfyUI-DUGco-PassViewer", "ComfyUI-DUGco-FilmFinish", "ComfyUI-DUGco-FrameTools",
-              "exr_multi_pass_exporter", "ComfyUI_exr_multi_pass_exporter")
+              "exr_multi_pass_exporter", "ComfyUI_exr_multi_pass_exporter", "comfyui-plate-relight", "comfyaudit",
+              "comfy_workflow_audit", "comfyui_waitingMusak", "ComfyUI-Elevator-Music")
 
 
 def siblings():
@@ -61,7 +62,7 @@ def main():
                                + ". Remove or disable them (ask the user first), or the node ids will clash.")
 
     if in_custom_nodes and not any("videohelpersuite" in p.name.lower() for p in siblings()):
-        report["notes"].append("Example workflows only: ComfyUI-VideoHelperSuite is not installed. The Film Finish example workflow uses it to load and save clips.")
+        report["notes"].append("Example workflows only: ComfyUI-VideoHelperSuite is not installed. The video example workflows use it to load and save clips.")
 
     if "--json" in sys.argv:
         print(json.dumps(report, indent=1))
