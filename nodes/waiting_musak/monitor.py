@@ -23,6 +23,11 @@ from aiohttp import web
 log = logging.getLogger("waitingMusak.monitor")
 HERE = os.path.dirname(os.path.abspath(__file__))
 PAGE_DIR = os.path.join(HERE, "monitor")
+# The monitor page plays the same music as the ComfyUI extension, so it serves the extension's audio module.
+# In DUGCO Tools the front-end files live in <pack>/web/js/waiting_musak; a standalone copy keeps them in ./web.
+AUDIO_JS = next((p for p in (os.path.join(HERE, "web", "audio.js"),
+                             os.path.join(HERE, "..", "..", "web", "js", "waiting_musak", "audio.js"))
+                 if os.path.isfile(p)), os.path.join(HERE, "web", "audio.js"))
 TRACKED = {"status", "execution_start", "execution_cached", "executing", "progress",
            "executed", "execution_success", "execution_error", "execution_interrupted"}
 KINDS = {**dict.fromkeys(("png", "jpg", "jpeg", "webp", "gif", "avif", "bmp"), "image"),
@@ -403,7 +408,7 @@ class Monitor:
         app.router.add_get("/", page(PAGE_DIR, "index.html"))
         app.router.add_get("/monitor.js", page(PAGE_DIR, "monitor.js"))
         app.router.add_get("/viewer.js", page(PAGE_DIR, "viewer.js"))
-        app.router.add_get("/audio.js", page(HERE, "web", "audio.js"))
+        app.router.add_get("/audio.js", page(AUDIO_JS))
         app.router.add_get("/files/{path:.+}", self.files)
         # Home-screen icons and the web-app manifest.
         for name in ("comfy-icon.svg", "icon-180.png", "icon-192.png", "icon-512.png"):

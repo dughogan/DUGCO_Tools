@@ -66,6 +66,21 @@ class OutputFiles(unittest.TestCase):
         self.assertEqual(got, {("", "clip.mp4"): "video"})
 
 
+class PageAssets(unittest.TestCase):
+    """The monitor page is only as good as the files it is served. A missing one leaves it on 'Connecting...'."""
+
+    def test_every_file_the_page_imports_exists(self):
+        self.assertTrue(os.path.isfile(monitor.AUDIO_JS), f"audio module not found at {monitor.AUDIO_JS}")
+        for name in ("index.html", "monitor.js", "viewer.js", "manifest.webmanifest", "comfy-icon.svg"):
+            self.assertTrue(os.path.isfile(os.path.join(monitor.PAGE_DIR, name)), name)
+
+    def test_the_audio_module_is_the_one_the_page_expects(self):
+        with open(monitor.AUDIO_JS, encoding="utf-8") as f:
+            source = f.read()
+        self.assertIn("export class ElevatorAudio", source)
+        self.assertIn("export const MUSIC_STYLES", source)
+
+
 class ServeFiles(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
