@@ -1,6 +1,8 @@
 # DUGco Plate Relight
 
-Plate Relight: relight and clean up real footage with AI renders and passes, without replacing the plate's pixels.
+Plate Relight: add light to real footage, or bring an AI relight back onto it, without replacing the plate's pixels.
+
+These nodes do not generate a new look themselves. **Add Light from Passes** adds a light you aim, using the shot's passes. **Light Transfer** takes a relight of the same shot made by another model and copies only its light and colour onto your plate, so a look such as golden hour or night comes from that model.
 
 Three VFX post nodes for ComfyUI. They all work on plain IMAGE / MASK batches (one image per frame), keep the original plate's pixels, and run on CPU with NumPy + OpenCV.
 

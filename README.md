@@ -17,7 +17,7 @@ A growing pack of custom nodes and workflows for [ComfyUI](https://github.com/co
 | [Film Finish](#film-finish) | Make AI renders read as 35mm film. | 1 |
 | [Frame Tools](#frame-tools) | Repeat video latent frames, and keep every Nth image. | 2 |
 | [Track Path To Shot](#track-path-to-shot) | Draw a route on frame 1 and it sticks to the surface for the whole shot. | 1 |
-| [Plate Relight](#plate-relight) | Relight and clean up real footage without replacing the plate's pixels. | 3 |
+| [Plate Relight](#plate-relight) | Add light to real footage, or bring an AI relight back onto it, without replacing the plate's pixels. | 3 |
 | [Comfy Workflow Tracker](#comfy-workflow-tracker) | Audit a workflow's models and licences, record a shot's life, package it for legal. | 6 |
 | [waitingMusak](#waitingmusak) | Elevator music while a workflow runs, and a phone-friendly render monitor. | 0 |
 | [25 fps Delivery](#25-fps-delivery) | A workflow: three ways to deliver 25 fps when the model gives you 24. | 0 |
@@ -110,14 +110,14 @@ For the classic "insert creature here" shot. Draw a route on the first frame and
 
 <img src="docs/images/plate_relight.jpg" alt="Plate Relight" width="100%">
 
-Three post nodes that relight and clean up real footage using AI renders and passes, while keeping the original plate's pixels. They run on the CPU with NumPy and OpenCV, with no model downloads.
+Three post nodes that add light to real footage and clean it up, while keeping the original plate's pixels. They do not generate a new look themselves: one adds a light you aim, using the shot's passes, and one brings a relight made by another model back onto your plate. They run on the CPU with NumPy and OpenCV, with no model downloads.
 
-- **Light Transfer** copies the light and colour from a relit render onto the original plate, aligning the render to the plate first.
+- **Add Light from Passes** adds a new light on top of the footage from albedo, normals and specular passes, with cast shadows from depth. You set its direction, colour and intensity, or sweep it across the shot.
+- **Light Transfer** needs a second input: the same shot already relit by another model (for example MiniMax H3 or Qwen Image Edit). It copies only the light and colour from that render onto the original plate, aligning the render to the plate first. The new look, such as golden hour or night, comes from that model, not from this node.
 - **Temporal Deflicker** removes frame-to-frame shimmer from per-frame AI passes by following the plate's motion.
-- **Add Light from Passes** adds a new light on top of the footage from albedo, normals and specular passes, with cast shadows from depth.
 
-**Nodes:** Light Transfer · Temporal Deflicker · Add Light from Passes
-&nbsp;|&nbsp; [Guide](docs/plate_relight.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Plate%20Relight%20-%20showcase.json)
+**Nodes:** Add Light from Passes · Light Transfer · Temporal Deflicker
+&nbsp;|&nbsp; [Watch the demo](demos/plate_relight/demo.mp4) &nbsp;|&nbsp; [Guide](docs/plate_relight.md) &nbsp;|&nbsp; [Example workflow](example_workflows/DUGco%20Plate%20Relight%20-%20showcase.json)
 
 ---
 
@@ -147,7 +147,7 @@ Your GPU is working hard. You are on hold. Elevator music while a workflow runs,
 - **Comfy Monitor:** a phone-friendly page to watch, stop and preview your renders. It listens on its own port (8190), on this computer only until you choose to open it to your network or Tailscale.
 - It adds no nodes. The controls are in the ComfyUI interface and settings.
 
-&nbsp;[Guide](docs/waiting_musak.md) &nbsp;|&nbsp; [Changelog](docs/waiting_musak_changelog.md)
+&nbsp;[Watch the demo](demos/waiting_musak/demo.mp4) &nbsp;|&nbsp; [Guide](docs/waiting_musak.md) &nbsp;|&nbsp; [Changelog](docs/waiting_musak_changelog.md)
 
 ---
 
@@ -226,12 +226,14 @@ Workflows live in [example_workflows](example_workflows) and also appear in Comf
 
 ## Demo videos
 
-A 45-second narrated walkthrough of each tool.
+A short narrated walkthrough of each tool.
 
 | | | |
 | :---: | :---: | :---: |
 | [<img src="demos/pass_viewer/thumbnail.jpg" alt="Pass Viewer demo" width="100%">](demos/pass_viewer/demo.mp4) | [<img src="demos/exr_multi_pass_exporter/thumbnail.jpg" alt="Multi-Pass EXR Exporter demo" width="100%">](demos/exr_multi_pass_exporter/demo.mp4) | [<img src="demos/film_finish/thumbnail.jpg" alt="Film Finish demo" width="100%">](demos/film_finish/demo.mp4) |
 | [Pass Viewer](demos/pass_viewer/demo.mp4) | [Multi-Pass EXR Exporter](demos/exr_multi_pass_exporter/demo.mp4) | [Film Finish](demos/film_finish/demo.mp4) |
+| [<img src="demos/plate_relight/thumbnail.jpg" alt="Plate Relight demo" width="100%">](demos/plate_relight/demo.mp4) | [<img src="demos/workflow_tracker/thumbnail.jpg" alt="Comfy Workflow Tracker demo" width="100%">](demos/workflow_tracker/demo.mp4) | [<img src="demos/waiting_musak/thumbnail.jpg" alt="waitingMusak demo" width="100%">](demos/waiting_musak/demo.mp4) |
+| [Plate Relight](demos/plate_relight/demo.mp4) | [Comfy Workflow Tracker](demos/workflow_tracker/demo.mp4) | [waitingMusak](demos/waiting_musak/demo.mp4) |
 | [<img src="demos/fps25_delivery/thumbnail.jpg" alt="25 fps Delivery explainer" width="100%">](demos/fps25_delivery/demo.mp4) | | |
 | [25 fps Delivery](demos/fps25_delivery/demo.mp4) (workflow explainer, 1:53) | | |
 
