@@ -20,8 +20,9 @@ A growing pack of custom nodes and workflows for [ComfyUI](https://github.com/co
 | [Plate Relight](#plate-relight) | Relight and clean up real footage without replacing the plate's pixels. | 3 |
 | [Comfy Workflow Tracker](#comfy-workflow-tracker) | Audit a workflow's models and licences, record a shot's life, package it for legal. | 6 |
 | [waitingMusak](#waitingmusak) | Elevator music while a workflow runs, and a phone-friendly render monitor. | 0 |
+| [25 fps Delivery](#25-fps-delivery) | A workflow: three ways to deliver 25 fps when the model gives you 24. | 0 |
 
-Most nodes appear under the **DUGco** category in the node menu. Comfy Workflow Tracker keeps its own category and sidebar tab, and waitingMusak adds no nodes: it lives in the ComfyUI interface.
+Most nodes appear under the **DUGco** category in the node menu. Comfy Workflow Tracker keeps its own category and sidebar tab, and waitingMusak adds no nodes: it lives in the ComfyUI interface. 25 fps Delivery is a workflow, not a node.
 
 ---
 
@@ -150,6 +151,21 @@ Your GPU is working hard. You are on hold. Elevator music while a workflow runs,
 
 ---
 
+### 25 fps Delivery
+
+<img src="docs/images/fps25_delivery.jpg" alt="The conform route: the same 24 frames played at 25 fps, 4% shorter" width="100%">
+
+European broadcast needs 25 frames per second and most video models give you 24. One workflow, three ways to get there.
+
+- **Native:** LTX 2.5 takes a frame rate, so every frame is generated for 25.
+- **Conform:** the same frames written at 25 with two core nodes. Plays 4% faster, picture only.
+- **Retime:** Topaz interpolation builds a true 25 fps clip of the same length.
+- It adds no nodes. The native and conform routes have been run; the Seedance and Topaz partner nodes have not yet. The guide has the details.
+
+&nbsp;[Watch the explainer](demos/fps25_delivery/demo.mp4) &nbsp;|&nbsp; [Guide](docs/fps25_delivery.md) &nbsp;|&nbsp; [Workflow](example_workflows/DUGco%2025%20fps%20Delivery%20-%20Native%20Conform%20Retime.json)
+
+---
+
 ## Install
 
 Clone the pack into your ComfyUI `custom_nodes` folder:
@@ -194,6 +210,7 @@ If you use a coding agent (Claude Code, Codex, Cursor and others), it can do the
 | Plate Relight | `opencv-python` (in `requirements.txt`) |
 | Comfy Workflow Tracker | None. Optional: `anthropic` for the Claude Review node, `cryptography` for encrypted prompts. |
 | waitingMusak | None |
+| 25 fps Delivery (workflow) | [KJNodes](https://github.com/kijai/ComfyUI-KJNodes); the LTX 2.5 models; a Comfy account with credits for the Seedance and Topaz nodes. See the [guide](docs/fps25_delivery.md). |
 
 ## Workflows
 
