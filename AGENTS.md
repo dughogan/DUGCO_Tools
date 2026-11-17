@@ -92,6 +92,7 @@ Nothing here is needed for the pack to load. Offer each one only if the user wan
 - **The video example workflows** use [ComfyUI-VideoHelperSuite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite) to load and save clips.
 - **Track Path To Shot** downloads its tracker, CoTracker3, through `torch.hub` the first time it runs (code from GitHub, about 100 MB of weights from Hugging Face). CoTracker3 is licensed CC-BY-NC 4.0, non-commercial use only: tell the user. It is used with the Spline Editor from [ComfyUI-KJNodes](https://github.com/kijai/ComfyUI-KJNodes).
 - **The Animated Path Insert workflow** needs the MiniMax H3 models, SAM 3.1 and two more node packs. It has its own instructions: [docs/animated_path_insert_agents.md](docs/animated_path_insert_agents.md).
+- **The Viggle Remake Character Swap workflow** needs the MiniMax H3 and FLUX 3 Klein models, the Viggle Remake swap LoRA and its node pack, and KJNodes. The LoRA is under the MiniMax H3 Community License; tell the user before they use it commercially. See [docs/viggle_remake_swap.md](docs/viggle_remake_swap.md).
 - **The Pass Viewer example workflow** expects a folder of multi-layer EXR frames at `<ComfyUI>/input/vfx_passes/`. The user supplies those.
 
 ## 7. Restart and verify

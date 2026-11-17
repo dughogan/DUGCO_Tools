@@ -21,8 +21,9 @@ A growing pack of custom nodes and workflows for [ComfyUI](https://github.com/co
 | [Comfy Workflow Tracker](#comfy-workflow-tracker) | Audit a workflow's models and licences, record a shot's life, package it for legal. | 6 |
 | [waitingMusak](#waitingmusak) | Elevator music while a workflow runs, and a phone-friendly render monitor. | 0 |
 | [25 fps Delivery](#25-fps-delivery) | A workflow: three ways to deliver 25 fps when the model gives you 24. | 0 |
+| [Viggle Remake Character Swap](#viggle-remake-character-swap) | A workflow: recast the person in a shot with MiniMax H3 and the Viggle Remake swap LoRA. | 0 |
 
-Most nodes appear under the **DUGco** category in the node menu. Comfy Workflow Tracker keeps its own category and sidebar tab, and waitingMusak adds no nodes: it lives in the ComfyUI interface. 25 fps Delivery is a workflow, not a node.
+Most nodes appear under the **DUGco** category in the node menu. Comfy Workflow Tracker keeps its own category and sidebar tab, and waitingMusak adds no nodes: it lives in the ComfyUI interface. 25 fps Delivery and Viggle Remake Character Swap are workflows, not nodes.
 
 ---
 
@@ -166,6 +167,22 @@ European broadcast needs 25 frames per second and most video models give you 24.
 
 ---
 
+### Viggle Remake Character Swap
+
+<img src="docs/images/viggle_remake_swap.jpg" alt="The source shot on the left and the recast on the right, same frame" width="100%">
+
+Recast the person in a shot without a mask or a track. Repaint two frames with the new character, and MiniMax H3 with the Viggle Remake swap LoRA re-shoots the clip through them.
+
+- **One workflow, three swaps:** a full recast, a head swap that keeps the body and clothes, or a costume change.
+- **The painting is built in:** FLUX 3 Klein repaints the two keyframes from one instruction, or you load your own.
+- **Measured:** a nine-second take at 480 renders in about 7 minutes from a cold start and 2.5 once the models are loaded; 736 takes a little over 14 minutes, on a 96 GB card.
+- **The Edit LoRA works in the same workflow:** a new location, a relight or an added object, from one painted frame. The guide has the recipe and what goes wrong with two.
+- It adds no nodes. The LoRA falls under the MiniMax H3 Community License, which has conditions for commercial use: the guide spells them out. It regenerates the whole frame, so it is not for a locked plate.
+
+&nbsp;[Guide](docs/viggle_remake_swap.md) &nbsp;|&nbsp; [Workflow](example_workflows/DUGco%20Viggle%20Remake%20Character%20Swap%20-%20MiniMax%20H3.json)
+
+---
+
 ## Install
 
 Clone the pack into your ComfyUI `custom_nodes` folder:
@@ -211,6 +228,7 @@ If you use a coding agent (Claude Code, Codex, Cursor and others), it can do the
 | Comfy Workflow Tracker | None. Optional: `anthropic` for the Claude Review node, `cryptography` for encrypted prompts. |
 | waitingMusak | None |
 | 25 fps Delivery (workflow) | [KJNodes](https://github.com/kijai/ComfyUI-KJNodes); the LTX 2.5 models; a Comfy account with credits for the Seedance and Topaz nodes. See the [guide](docs/fps25_delivery.md). |
+| Viggle Remake Character Swap (workflow) | [KJNodes](https://github.com/kijai/ComfyUI-KJNodes); the ComfyUI-Viggle-Remake nodes; the MiniMax H3 models and the Viggle Remake swap LoRA (MiniMax H3 Community License); FLUX 3 Klein for the painting step. See the [guide](docs/viggle_remake_swap.md). |
 
 ## Workflows
 
@@ -223,6 +241,7 @@ Workflows live in [example_workflows](example_workflows) and also appear in Comf
 | [DUGco Animated Path Insert - MiniMax H3](example_workflows/DUGco%20Animated%20Path%20Insert%20-%20MiniMax%20H3.json) | Draw a route, track it onto the shot, and have MiniMax H3 paint a creature along it. Needs the MiniMax H3 models, KJNodes and MaskVidExperiments: see the [guide](docs/animated_path_insert.md), or [let an agent set it up](docs/animated_path_insert_agents.md). |
 | [DUGco Plate Relight - showcase](example_workflows/DUGco%20Plate%20Relight%20-%20showcase.json) | All three relight nodes on a plate and its passes. |
 | [DUGco 25 fps Delivery - Native Conform Retime](example_workflows/DUGco%2025%20fps%20Delivery%20-%20Native%20Conform%20Retime.json) | Three ways to deliver 25 fps when the model gives you 24: generate at 25 with LTX 2.5, conform the same frames, or retime with Topaz. Uses no DUGCO Tools node. Needs KJNodes, the LTX 2.5 models and, for the Seedance and Topaz nodes, a Comfy account: see the [guide](docs/fps25_delivery.md). |
+| [DUGco Viggle Remake Character Swap - MiniMax H3](example_workflows/DUGco%20Viggle%20Remake%20Character%20Swap%20-%20MiniMax%20H3.json) | Recast the person in a shot: repaint two frames, and MiniMax H3 with the Viggle Remake swap LoRA re-shoots the clip. Uses no DUGCO Tools node. Needs the MiniMax H3 and FLUX 3 Klein models, the Viggle Remake nodes and LoRA, and KJNodes: see the [guide](docs/viggle_remake_swap.md). |
 
 ## Demo videos
 
