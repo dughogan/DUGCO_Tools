@@ -2,7 +2,7 @@
 
 Instructions for an AI coding agent that has been asked to **install DUGCO Tools into someone's ComfyUI**, or to fix an install that is not working. If you were asked to add a new tool to this pack instead, read [CONTRIBUTING.md](CONTRIBUTING.md).
 
-DUGCO Tools is a ComfyUI custom node pack: 19 nodes in eight tools (Pass Viewer, Multi-Pass EXR Exporter, Film Finish, Frame Tools, Track Path To Shot, Plate Relight, Comfy Workflow Tracker and waitingMusak). It lives in one folder inside ComfyUI's `custom_nodes` folder and needs four Python packages.
+DUGCO Tools is a ComfyUI custom node pack: 13 nodes in seven tools (Pass Viewer, Multi-Pass EXR Exporter, Film Finish, Frame Tools, Track Path To Shot, Plate Relight and waitingMusak). It lives in one folder inside ComfyUI's `custom_nodes` folder and needs four Python packages.
 
 ## Ground rules
 
@@ -50,7 +50,6 @@ These older standalone packs register the same node ids as DUGCO Tools. If any o
 - `ComfyUI-DUGco-FrameTools`
 - `exr_multi_pass_exporter` or `ComfyUI_exr_multi_pass_exporter`
 - `comfyui-plate-relight`
-- `comfyaudit` or `comfy_workflow_audit`
 - `comfyui_waitingMusak` or `ComfyUI-Elevator-Music`
 
 ## 4. Run the checker
@@ -88,7 +87,6 @@ Run the checker again afterwards. Do not go on until it reports that the require
 
 Nothing here is needed for the pack to load. Offer each one only if the user wants it.
 
-- **Comfy Workflow Tracker** needs nothing extra. Its Claude Review node needs `anthropic`, and encrypted prompts need `cryptography`; install either only if the user asks for that feature.
 - **The video example workflows** use [ComfyUI-VideoHelperSuite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite) to load and save clips.
 - **Track Path To Shot** downloads its tracker, CoTracker3, through `torch.hub` the first time it runs (code from GitHub, about 100 MB of weights from Hugging Face). CoTracker3 is licensed CC-BY-NC 4.0, non-commercial use only: tell the user. It is used with the Spline Editor from [ComfyUI-KJNodes](https://github.com/kijai/ComfyUI-KJNodes).
 - **The Animated Path Insert workflow** needs the MiniMax H3 models, SAM 3.1 and two more node packs. It has its own instructions: [docs/animated_path_insert_agents.md](docs/animated_path_insert_agents.md).
@@ -105,7 +103,7 @@ curl -s http://127.0.0.1:8188/object_info/DUGcoPassViewer
 
 A JSON description of the node means the pack loaded. An empty object `{}` means it did not: read the ComfyUI startup log for a line that mentions `DUGCO_Tools` or `[DUGCO Tools]`.
 
-All 19 node ids, for checking:
+All 13 node ids, for checking:
 
 - Pass Viewer: `DUGcoLoadPassEXRs`, `DUGcoPassesFromImages`, `DUGcoPassViewer`, `DUGcoPickPass`
 - EXR Exporter: `MultiPassEXRExporter`, `AddPass`
@@ -113,11 +111,10 @@ All 19 node ids, for checking:
 - Frame Tools: `DUGcoRepeatLatentFrames`, `DUGcoSelectEveryNthFrame`
 - Track Path To Shot: `DUGcoTrackPathToShot`
 - Plate Relight: `LightTransfer`, `TemporalDeflicker`, `AddLightFromPasses`
-- Comfy Workflow Tracker: `ComfyAuditStudioProfile`, `ComfyAuditWorkflow`, `ComfyAuditClaudeReview`, `ComfyAuditGate`, `ComfyAuditHistoryGate`, `ComfyAuditSaveReport`
 
-Two tools also add web routes, which you can check directly: `/comfyaudit/status` (Workflow Tracker) and `/waitingmusak/monitor` (Comfy Monitor). waitingMusak registers no nodes. Its Comfy Monitor also starts a small web server on its own port (8190 by default, this computer only); tell the user, and do not open it to the network unless they ask.
+waitingMusak registers no nodes, but adds a web route you can check directly: `/waitingmusak/monitor` (Comfy Monitor). Its Comfy Monitor also starts a small web server on its own port (8190 by default, this computer only); tell the user, and do not open it to the network unless they ask.
 
-In the ComfyUI interface most nodes are under the **DUGco** category (the Workflow Tracker has its own category and a sidebar tab), and the example workflows are in the Templates browser under **DUGCO_Tools**.
+In the ComfyUI interface most nodes are under the **DUGco** category, and the example workflows are in the Templates browser under **DUGCO_Tools**.
 
 ## Troubleshooting
 

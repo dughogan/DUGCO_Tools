@@ -18,12 +18,11 @@ A growing pack of custom nodes and workflows for [ComfyUI](https://github.com/co
 | [Frame Tools](#frame-tools) | Repeat video latent frames, and keep every Nth image. | 2 |
 | [Track Path To Shot](#track-path-to-shot) | Draw a route on frame 1 and it sticks to the surface for the whole shot. | 1 |
 | [Plate Relight](#plate-relight) | Add light to real footage, or bring an AI relight back onto it, without replacing the plate's pixels. | 3 |
-| [Comfy Workflow Tracker](#comfy-workflow-tracker) | Audit a workflow's models and licences, record a shot's life, package it for legal. | 6 |
 | [waitingMusak](#waitingmusak) | Elevator music while a workflow runs, and a phone-friendly render monitor. | 0 |
 | [25 fps Delivery](#25-fps-delivery) | A workflow: three ways to deliver 25 fps when the model gives you 24. | 0 |
 | [Viggle Remake Character Swap](#viggle-remake-character-swap) | A workflow: recast the person in a shot with MiniMax H3 and the Viggle Remake swap LoRA. | 0 |
 
-Most nodes appear under the **DUGco** category in the node menu. Comfy Workflow Tracker keeps its own category and sidebar tab, and waitingMusak adds no nodes: it lives in the ComfyUI interface. 25 fps Delivery and Viggle Remake Character Swap are workflows, not nodes.
+Most nodes appear under the **DUGco** category in the node menu. waitingMusak adds no nodes: it lives in the ComfyUI interface. 25 fps Delivery and Viggle Remake Character Swap are workflows, not nodes.
 
 ---
 
@@ -122,22 +121,6 @@ Three post nodes that add light to real footage and clean it up, while keeping t
 
 ---
 
-### Comfy Workflow Tracker
-
-<img src="docs/images/workflow_tracker.jpg" alt="Comfy Workflow Tracker" width="100%">
-
-Every workflow's life, recorded as it happens, and packaged for legal. Built for studios putting ComfyUI in final pixels.
-
-- **Audits a workflow:** every model it loads and what its licence says for your studio, the custom node packs and versions, prompts and external assets, with a go, no-go or go-with-conditions.
-- **Records the shot's life inside the workflow file:** who changed what, which models came and went, and where a person made the decisions. The record is hash-chained and travels with the `.json`.
-- **Packages a shot for legal:** a check against your licences, a sign-off sealed into the history, and a zip that opens in Comfy Audit, a browser app for legal teams (in [apps/comfy_audit](apps/comfy_audit)).
-- Standard library only, and nothing contacts the network unless you turn on online lookups. It also runs from the command line.
-
-**Nodes:** Studio Profile · Audit This Workflow · Claude Review · Audit Gate · Shot History Gate · Save Audit Report
-&nbsp;|&nbsp; [Watch the demo](demos/workflow_tracker/demo.mp4) &nbsp;|&nbsp; [Guide](docs/workflow_tracker.md)
-
----
-
 ### waitingMusak
 
 <img src="docs/images/waiting_musak.jpg" alt="waitingMusak" width="100%">
@@ -205,7 +188,7 @@ python DUGCO_Tools/scripts/check_install.py
 
 To update later, run `git pull` inside the `DUGCO_Tools` folder and restart ComfyUI.
 
-**Already have one of these as a separate pack?** Remove the standalone copy first (for example `comfyui-plate-relight`, `comfyaudit` or `comfyui_waitingMusak`). Two packs that register the same node will clash. The checker lists any it finds.
+**Already have one of these as a separate pack?** Remove the standalone copy first (for example `comfyui-plate-relight` or `comfyui_waitingMusak`). Two packs that register the same node will clash. The checker lists any it finds.
 
 ### Let an agent install it
 
@@ -225,7 +208,6 @@ If you use a coding agent (Claude Code, Codex, Cursor and others), it can do the
 | Frame Tools | None |
 | Track Path To Shot | `opencv-python` (in `requirements.txt`); [KJNodes](https://github.com/kijai/ComfyUI-KJNodes) for the Spline Editor; CoTracker3, downloaded on first use (non-commercial licence) |
 | Plate Relight | `opencv-python` (in `requirements.txt`) |
-| Comfy Workflow Tracker | None. Optional: `anthropic` for the Claude Review node, `cryptography` for encrypted prompts. |
 | waitingMusak | None |
 | 25 fps Delivery (workflow) | [KJNodes](https://github.com/kijai/ComfyUI-KJNodes); the LTX 2.5 models; a Comfy account with credits for the Seedance and Topaz nodes. See the [guide](docs/fps25_delivery.md). |
 | Viggle Remake Character Swap (workflow) | [KJNodes](https://github.com/kijai/ComfyUI-KJNodes); the ComfyUI-Viggle-Remake nodes; the MiniMax H3 models and the Viggle Remake swap LoRA (MiniMax H3 Community License); FLUX 3 Klein for the painting step. See the [guide](docs/viggle_remake_swap.md). |
@@ -251,10 +233,8 @@ A short narrated walkthrough of each tool.
 | :---: | :---: | :---: |
 | [<img src="demos/pass_viewer/thumbnail.jpg" alt="Pass Viewer demo" width="100%">](demos/pass_viewer/demo.mp4) | [<img src="demos/exr_multi_pass_exporter/thumbnail.jpg" alt="Multi-Pass EXR Exporter demo" width="100%">](demos/exr_multi_pass_exporter/demo.mp4) | [<img src="demos/film_finish/thumbnail.jpg" alt="Film Finish demo" width="100%">](demos/film_finish/demo.mp4) |
 | [Pass Viewer](demos/pass_viewer/demo.mp4) | [Multi-Pass EXR Exporter](demos/exr_multi_pass_exporter/demo.mp4) | [Film Finish](demos/film_finish/demo.mp4) |
-| [<img src="demos/plate_relight/thumbnail.jpg" alt="Plate Relight demo" width="100%">](demos/plate_relight/demo.mp4) | [<img src="demos/workflow_tracker/thumbnail.jpg" alt="Comfy Workflow Tracker demo" width="100%">](demos/workflow_tracker/demo.mp4) | [<img src="demos/waiting_musak/thumbnail.jpg" alt="waitingMusak demo" width="100%">](demos/waiting_musak/demo.mp4) |
-| [Plate Relight](demos/plate_relight/demo.mp4) | [Comfy Workflow Tracker](demos/workflow_tracker/demo.mp4) | [waitingMusak](demos/waiting_musak/demo.mp4) |
-| [<img src="demos/fps25_delivery/thumbnail.jpg" alt="25 fps Delivery explainer" width="100%">](demos/fps25_delivery/demo.mp4) | | |
-| [25 fps Delivery](demos/fps25_delivery/demo.mp4) (workflow explainer, 1:53) | | |
+| [<img src="demos/plate_relight/thumbnail.jpg" alt="Plate Relight demo" width="100%">](demos/plate_relight/demo.mp4) | [<img src="demos/waiting_musak/thumbnail.jpg" alt="waitingMusak demo" width="100%">](demos/waiting_musak/demo.mp4) | [<img src="demos/fps25_delivery/thumbnail.jpg" alt="25 fps Delivery explainer" width="100%">](demos/fps25_delivery/demo.mp4) |
+| [Plate Relight](demos/plate_relight/demo.mp4) | [waitingMusak](demos/waiting_musak/demo.mp4) | [25 fps Delivery](demos/fps25_delivery/demo.mp4) (workflow explainer, 1:53) |
 
 ## What's in the repository
 
@@ -265,9 +245,7 @@ A short narrated walkthrough of each tool.
 | `example_workflows/` | Workflow `.json` files and their thumbnails. |
 | `docs/` | A guide for each tool, and the images on this page. |
 | `demos/` | Short demo clips, one folder per tool or workflow. |
-| `apps/` | Comfy Audit, the browser app legal teams use to open a packaged shot. |
 | `scripts/` | The install checker. |
-| `tools/` | Maintainer scripts for the Workflow Tracker's bundled data. |
 | `tests/` | A smoke test that checks the pack loads and the nodes run, plus each tool's own tests. |
 
 Adding a tool to the pack? The checklist is in [CONTRIBUTING.md](CONTRIBUTING.md).
