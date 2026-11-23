@@ -21,8 +21,6 @@ EXPECTED = {
     "DUGcoRepeatLatentFrames", "DUGcoSelectEveryNthFrame",
     "DUGcoTrackPathToShot",
     "LightTransfer", "TemporalDeflicker", "AddLightFromPasses",
-    "ComfyAuditStudioProfile", "ComfyAuditWorkflow", "ComfyAuditClaudeReview", "ComfyAuditGate", "ComfyAuditHistoryGate",
-    "ComfyAuditSaveReport",
 }
 
 

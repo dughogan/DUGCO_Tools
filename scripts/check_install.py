@@ -28,8 +28,8 @@ CV2_PACKAGES = ("opencv-python", "opencv-contrib-python", "opencv-python-headles
 
 # Standalone packs that register the same node ids as this pack.
 DUPLICATES = ("ComfyUI-DUGco-PassViewer", "ComfyUI-DUGco-FilmFinish", "ComfyUI-DUGco-FrameTools",
-              "exr_multi_pass_exporter", "ComfyUI_exr_multi_pass_exporter", "comfyui-plate-relight", "comfyaudit",
-              "comfy_workflow_audit", "comfyui_waitingMusak", "ComfyUI-Elevator-Music")
+              "exr_multi_pass_exporter", "ComfyUI_exr_multi_pass_exporter", "comfyui-plate-relight",
+              "comfyui_waitingMusak", "ComfyUI-Elevator-Music")
 
 
 def siblings():
